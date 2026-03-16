@@ -7,10 +7,6 @@
 
 using namespace std;
 
-// 1 3 7 
-// 4 9 0
-// 1 3 0 
-
 void save_rand_matcrix(int n, string file_name) {
 	random_device rd;
 	mt19937 gen(rd());
@@ -126,41 +122,35 @@ vector<vector<int>> mult_matrix(vector<vector<int>> fir_matrix, vector<vector<in
 	}; 
 
 	size_t n = fir_matrix.size();
-	vector<vector<int>> matrix;
-	vector<int> row;
+	vector<vector<int>> matrix(n, vector<int>(n, 0));
 
 	for (size_t i = 0; i < n; ++i) {
 		for (size_t j = 0; j < n; ++j) {
-			int number = 0;
 			for (size_t k = 0; k < n; ++k) {
-				number += fir_matrix[i][k] * sec_matrix[k][j];
+				matrix[i][j] += fir_matrix[i][k] * sec_matrix[k][j];
 			};
-			row.push_back(number);
 		};
-		matrix.push_back(row);
-		row.clear();
 	};
-
 	return matrix;
 };
 
 int main() {
 	try {
-		auto start = chrono::high_resolution_clock::now();
-
-		save_rand_matcrix(1000, "matr1.txt");
-		save_rand_matcrix(1000, "matr2.txt");
+		//save_rand_matcrix(1000, "matr1.txt");
+		//save_rand_matcrix(1000, "matr2.txt");
 
 		vector<vector<int>> fir_matrix = read_matrix("matr1.txt");
 		vector<vector<int>> sec_matrix = read_matrix("matr2.txt");
 
+		auto start = chrono::high_resolution_clock::now();
+
 		vector<vector<int>> res_matrix = mult_matrix(fir_matrix, sec_matrix);
+
+		auto end = std::chrono::high_resolution_clock::now();
 
 		save_matrix("matr_result.txt", res_matrix);
 
 		system("py check.py");
-
-		auto end = std::chrono::high_resolution_clock::now();
 
 		chrono::duration<double> duration = end - start;
 
