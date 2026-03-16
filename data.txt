@@ -1,0 +1,2 @@
+Time of work: 39.0802
+Size of matrix: 1000

@@ -3,6 +3,7 @@
 #include <random>
 #include <string>
 #include <cstdlib>
+#include <chrono>
 
 using namespace std;
 
@@ -145,8 +146,10 @@ vector<vector<int>> mult_matrix(vector<vector<int>> fir_matrix, vector<vector<in
 
 int main() {
 	try {
-		save_rand_matcrix(100, "matr1.txt");
-		save_rand_matcrix(100, "matr2.txt");
+		auto start = chrono::high_resolution_clock::now();
+
+		save_rand_matcrix(1000, "matr1.txt");
+		save_rand_matcrix(1000, "matr2.txt");
 
 		vector<vector<int>> fir_matrix = read_matrix("matr1.txt");
 		vector<vector<int>> sec_matrix = read_matrix("matr2.txt");
@@ -156,6 +159,18 @@ int main() {
 		save_matrix("matr_result.txt", res_matrix);
 
 		system("py check.py");
+
+		auto end = std::chrono::high_resolution_clock::now();
+
+		chrono::duration<double> duration = end - start;
+
+		ofstream out;
+		out.open("data.txt");
+
+		out << "Time of work: " << duration.count() << '\n';
+		out << "Size of matrix: " << res_matrix.size();
+
+		out.close();
 
 	} catch (invalid_argument e) {
 		cerr << e.what();
