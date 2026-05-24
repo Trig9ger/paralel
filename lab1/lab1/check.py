@@ -16,7 +16,7 @@ def read_matrix(file_name: str)->list[list[int]]:
         neg = 0
         for j in i:
             if j.isdigit():
-                number += number*10 + int(j)
+                number = number*10 + int(j)
             elif j == '-':
                 neg = 1
             else:
@@ -30,13 +30,17 @@ def read_matrix(file_name: str)->list[list[int]]:
 def main():
     fir_matrix = read_matrix("matr1.txt")
     sec_matrix = read_matrix("matr2.txt")
+    cpp_matrix = read_matrix("matr_result.txt")
 
     first = np.array(fir_matrix)
     second = np.array(sec_matrix)
+    cpp_res = np.array(cpp_matrix)
 
-    result = first @ second
+    py_res = first @ second
+    
+    np.savetxt("true_matr_result.txt", py_res, delimiter=' ', fmt='%d')
 
-    np.savetxt("true_matr_result.txt", result, delimiter=' ', fmt='%d')
+    print(np.array_equal(cpp_res, py_res))
 
 if __name__ == "__main__":
     main()

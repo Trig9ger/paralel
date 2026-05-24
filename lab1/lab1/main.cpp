@@ -125,12 +125,13 @@ vector<vector<int>> mult_matrix(vector<vector<int>> fir_matrix, vector<vector<in
 
 	auto start = chrono::high_resolution_clock::now();
 	for (size_t i = 0; i < n; ++i) {
-		for (size_t j = 0; j < n; ++j) {
-			for (size_t k = 0; k < n; ++k) {
-				matrix[i][j] += fir_matrix[i][k] * sec_matrix[k][j];
-			};
-		};
-	};
+		for (size_t k = 0; k < n; ++k) {
+			double temp = fir_matrix[i][k];
+			for (size_t j = 0; j < n; ++j) {
+				matrix[i][j] += temp * sec_matrix[k][j];
+			}
+		}
+	}
 	auto end = chrono::high_resolution_clock::now();
 
 	chrono::duration<double> duration = end - start;
@@ -142,11 +143,24 @@ vector<vector<int>> mult_matrix(vector<vector<int>> fir_matrix, vector<vector<in
 
 int main() {
 	try {
-		save_rand_matcrix(10, "matr1.txt");
-		save_rand_matcrix(10, "matr2.txt");
+		vector<string> globals;
+		ifstream in;
+		in.open("globals.txt");
+		if (in.is_open()) {
+			string line; 
+			while (getline(in, line)) {
+				globals.push_back(line);
+			}
+		}
+		in.close();
 
-		vector<vector<int>> fir_matrix = read_matrix("matr1.txt");
-		vector<vector<int>> sec_matrix = read_matrix("matr2.txt");
+		int m_size = stoi(globals[4]);
+
+		save_rand_matcrix(m_size, globals[0]);
+		save_rand_matcrix(m_size, globals[1]);
+
+		vector<vector<int>> fir_matrix = read_matrix(globals[0]);
+		vector<vector<int>> sec_matrix = read_matrix(globals[1]);
 
 		auto start = chrono::high_resolution_clock::now();
 
@@ -154,19 +168,21 @@ int main() {
 
 		auto end = std::chrono::high_resolution_clock::now();
 
-		save_matrix("matr_result.txt", res_matrix);
+		save_matrix(globals[2], res_matrix);
 
 		system("py check.py");
 
 		chrono::duration<double> duration = end - start;
 
 		ofstream out;
-		out.open("data.txt");
+		out.open(globals[3]);
 
 		out << "Time of work: " << duration.count() << '\n';
 		out << "Size of matrix: " << res_matrix.size();
 
 		out.close();
+
+		cout <<"| " << m_size << " | " << m_size * m_size << " | " << duration.count() * 1000000 << " | " << duration.count() << " |";
 
 	} catch (invalid_argument e) {
 		cerr << e.what();
