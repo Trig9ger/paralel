@@ -65,7 +65,6 @@ vector<vector<int>> mult_matrix(vector<vector<int>> fir_matrix, vector<vector<in
 			matrix[i][j] = temp;
 		}
 	}
-	auto end = chrono::high_resolution_clock::now();
 
 	return matrix;
 };
@@ -107,12 +106,9 @@ int main() {
 		ofstream out;
 		out.open(globals[3]);
 
-		out << "Time of work: " << duration.count() << '\n';
-		out << "Size of matrix: " << res_matrix.size();
+		out << "| " << m_size << " | " << m_size * m_size << " | " << duration.count() * 1000000 << " | " << duration.count() << " |";
 
 		out.close();
-
-		cout <<"| " << m_size << " | " << m_size * m_size << " | " << duration.count() * 1000000 << " | " << duration.count() << " |";
 
 	} catch (invalid_argument e) {
 		cerr << e.what();
