@@ -1,0 +1,8 @@
+x64/
+
+.sin
+.idea/
+
+*.vcxproj.user
+*.vcxproj.filters
+*.vcxproj
