@@ -3,8 +3,6 @@ import numpy as np
 def read_matrix(file_name: str)->list[list[int]]:
     matrix = []
 
-    text = []
-
     with open(file_name, 'r', encoding='utf-8') as file:
         text = file.readlines()
 
@@ -28,9 +26,12 @@ def read_matrix(file_name: str)->list[list[int]]:
     return matrix
 
 def main():
-    fir_matrix = read_matrix("matr1.txt")
-    sec_matrix = read_matrix("matr2.txt")
-    cpp_matrix = read_matrix("matr_result.txt")
+    with open("globals.txt", "r", encoding='utf-8') as file:
+        glob = file.readlines()
+
+    fir_matrix = read_matrix(glob[0].removesuffix('\n'))
+    sec_matrix = read_matrix(glob[1].removesuffix('\n'))
+    cpp_matrix = read_matrix(glob[2].removesuffix('\n'))
 
     first = np.array(fir_matrix)
     second = np.array(sec_matrix)
@@ -38,9 +39,12 @@ def main():
 
     py_res = first @ second
     
-    np.savetxt("true_matr_result.txt", py_res, delimiter=' ', fmt='%d')
+    np.savetxt(glob[5], py_res, delimiter=' ', fmt='%d')
 
-    print(np.array_equal(cpp_res, py_res))
+    if( np.array_equal(cpp_res, py_res) ):
+        print("С++ матрица равна numpy матрице")
+    else:
+        print("Матрицы не равны")
 
 if __name__ == "__main__":
     main()

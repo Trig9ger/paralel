@@ -1,2 +1,2 @@
-Time of work: 17.6967
-Size of matrix: 1000
+Time of work: 4.05e-05
+Size of matrix: 10
