@@ -2,5 +2,5 @@ matr1.txt
 matr2.txt
 matr_result.txt
 data.txt
-2000
+1000
 true_matr_result.txt

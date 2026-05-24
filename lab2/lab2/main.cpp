@@ -7,7 +7,7 @@
 
 using namespace std;
 
-vector<vector<int>> rand_matcrix(int n, string file_name) {
+vector<vector<int>> rand_matrix(int n, string file_name) {
 	random_device rd;
 	mt19937 gen(rd());
 	uniform_int_distribution<> dist(-5, 5);
@@ -83,8 +83,8 @@ int main() {
 		vector<int> vec_threads = { 2, 4, 8};
 
 
-		vector<vector<int>> fir_matrix = rand_matcrix(m_size, globals[0]);
-		vector<vector<int>> sec_matrix = rand_matcrix(m_size, globals[1]);
+		vector<vector<int>> fir_matrix = rand_matrix(m_size, globals[0]);
+		vector<vector<int>> sec_matrix = rand_matrix(m_size, globals[1]);
 
 		save_matrix(globals[0], fir_matrix);
 		save_matrix(globals[1], sec_matrix);
@@ -97,7 +97,6 @@ int main() {
 		chrono::duration<double> duration = end - start;
 
 		save_matrix(globals[2], res_matrix);
-
 
 		system("py check.py");
 
